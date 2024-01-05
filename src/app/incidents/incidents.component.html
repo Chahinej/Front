@@ -1,0 +1,211 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>Incidents table</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Danger zone</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Danger degree</th>
+
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let incident of incidents">
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{incident.name}}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{incident.type}}</p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{incident.description}}</p>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{incident.date}}</span>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-success">{{incident.state}}</span>
+                  </td>
+
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{incident.danger_zone}} KM</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{incident.danger_degree}} </span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <button type="button" class="btn btn-outline-danger" (click)="openDeleteModel(incident.id)">Delete</button>
+
+                  </td>
+
+                  <td class="align-middle">
+                    <button type="button" class="btn btn-outline-info" data-toggle="modaledit" data-target="#editModal" (click)="openEditIncident(incident)">
+                      Edit</button>
+
+                  </td>
+
+                </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn bg-gradient-secondary btn-sm mb-0 " data-toggle="modaladd" data-target="#addModal" (click)="openAddModel()">Add an incident </button>
+</div>
+</div>
+</div>
+<!-- Modal delete -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel">Your attention is required</h6>
+        <button type="button" class="btn-close text-dark" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="py-3 text-center">
+          <i class="ni ni-bell-55 ni-3x"></i>
+          <h4 class="text-gradient text-danger mt-4">You should read this!</h4>
+          <p>Do you really want to delete this Incident ?</p>
+        </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal"(click)="hide()">Close</button>
+        <button type="button" class="btn bg-gradient-primary" (click)="ConfirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!--ADD modal-->
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card card-plain">
+          <div class="card-header pb-0 text-left">
+            <h3 class="font-weight-bolder text-info text-gradient">Add an Incident</h3>
+            <p class="mb-0">Please enter the required informations downbelow</p>
+          </div>
+          <div class="card-body">
+            <form role="form text-left" #addForm="ngForm" (ngSubmit)="onAddIncident(addForm)">
+              <label>Incident name</label>
+              <div class="input-group mb-3">
+                <input type="text" ngModel name="name" class="form-control" placeholder="Name" >
+              </div>
+              <label>Danger Degree</label>
+              <div class="input-group mb-3">
+                <input type="text" ngModel name="danger_degree" class="form-control" placeholder="Danger Degree" >
+              </div>
+              <label>Type</label>
+              <div class="input-group mb-3">
+                <input type="text" ngModel name="type" class="form-control" placeholder="Type">
+              </div>
+              <label>Danger Zone</label>
+              <div class="input-group mb-3">
+                <input type="number" step="0.01" ngModel name="danger_zone" class="form-control" placeholder="Danger Zone" >
+              </div>
+              <label>Description</label>
+              <div class="input-group mb-3">
+               <!--<input type="text"  ngModel name="description" class="form-control" placeholder="Description" >-->
+                <textarea  ngModel name="description" class="form-control" cols="30" rows="4"></textarea>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input"  ngModel name="state" type="checkbox" id="status" checked="">
+                <label class="form-check-label" for="status">Status</label>
+              </div>
+              <button [disabled]="addForm.invalid" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0" type ="submit" >Confirm</button>
+                <button type="button" class="btn btn-link  ml-auto btn-lg w-100 mt-4 mb-0" data-dismiss="modaladd"(click)="addmodalhide()">Close</button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<!--Edit modal-->
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card card-plain">
+        <div class="card-header pb-0 text-left">
+          <h3 class="font-weight-bolder text-info text-gradient">Edit an Incident</h3>
+          <p class="mb-0">Please enter the required informations downbelow</p>
+        </div>
+        <div class="card-body">
+          <form role="form text-left" #editForm="ngForm" (ngSubmit)="onEditIncident(editForm.value)">
+            <label>Incident name</label>
+            <div class="input-group mb-3">
+              <input  type="hidden" ngModel="{{editIncident.id}}" name="id" class="form-control" >
+            </div>
+            <div class="input-group mb-3">
+              <input  type="hidden" ngModel="{{editIncident.date}}" name="date" class="form-control" >
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" ngModel="{{editIncident.name}}" name="name" class="form-control" placeholder="Name" >
+            </div>
+            <label>Danger Degree</label>
+            <div class="input-group mb-3">
+              <input type="text" ngModel="{{editIncident.danger_degree}}" name="danger_degree" class="form-control" placeholder="danger_degree" >
+            </div>
+            <label>Type</label>
+            <div class="input-group mb-3">
+              <input type="text" ngModel="{{editIncident.type}}" name="type" class="form-control" placeholder="Type">
+            </div>
+            <label>Danger Zone</label>
+            <div class="input-group mb-3">
+              <input type="number" step="0.01" ngModel="{{editIncident.danger_zone}}" name="danger_zone" class="form-control" placeholder="Danger Zone" >
+            </div>
+            <label>Description</label>
+            <div class="input-group mb-3">
+             <!--<input type="text"  ngModel name="description" class="form-control" placeholder="Description" >-->
+              <textarea  ngModel="{{editIncident.description}}" name="description" class="form-control" cols="30" rows="10"></textarea>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input"  ngModel name="state" type="checkbox" id="status" checked="">
+              <label class="form-check-label" for="status">Status</label>
+            </div>
+            <button   class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0" type="submit" >Save Changes</button>
+              <button type="button" class="btn btn-link  ml-auto btn-lg w-100 mt-4 mb-0" data-dismiss="modaledit"(click)="editmodalhide()">Close</button>
+
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+

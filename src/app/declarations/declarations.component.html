@@ -1,0 +1,179 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>Declarations of incidents Table</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User id</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let declaration of declarations">
+                  <td>
+                      <div class="align-middle text-center">
+                        <h6 class="mb-0 text-sm">{{declaration.name}}</h6>
+                      </div>
+                    <td class="align-middle text-center">
+
+                    <p class="text-xs font-weight-bold mb-0">{{declaration.id_user}}</p>
+                  </td>
+
+                  <td class="align-middle text-center">
+                    <p class="text-xs font-weight-bold mb-0">  {{declaration.description }}</p>
+                  </td>
+
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{declaration.date}}</span>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-success">{{declaration.status}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <button type="button" class="btn btn-outline-danger" (click)="openDeleteModel(declaration.id)" data-toggle="modal" data-target="#exampleModal">Delete</button>
+                  </td>
+                  <td class="align-middle text-center">
+                    <button type="button" class="btn btn-outline-info" (click)="openEditDeclaration(declaration)" data-toggle="modaledit" data-target="#editModal">Edit</button>
+                  </td>
+                </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn bg-gradient-secondary btn-sm mb-0 " data-toggle="modaladd" data-target="#addModal" (click)="openAddModel()">Add a Declaration </button>
+</div>
+</div>
+
+
+
+
+<!-- Modal delete -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel">Your attention is required</h6>
+        <button type="button" class="btn-close text-dark" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="py-3 text-center">
+          <i class="ni ni-bell-55 ni-3x"></i>
+          <h4 class="text-gradient text-danger mt-4">You should read this!</h4>
+          <p>Do you really want to delete this Declaration ?</p>
+        </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal"(click)="hide()">Close</button>
+        <button type="button" class="btn bg-gradient-primary" (click)="ConfirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!--ADD modal-->
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card card-plain">
+          <div class="card-header pb-0 text-left">
+            <h3 class="font-weight-bolder text-info text-gradient">Declare an Incident</h3>
+            <p class="mb-0">Please enter the required informations downbelow</p>
+          </div>
+          <div class="card-body">
+            <form role="form text-left" #addForm="ngForm" (ngSubmit)="onAddDeclaration(addForm)">
+              <label>Incident name</label>
+              <div class="input-group mb-3">
+                <input type="text" ngModel name="name" class="form-control" placeholder="Name" >
+              </div>
+         <label>Description</label>
+              <div class="input-group mb-3">
+               <!--<input type="text"  ngModel name="description" class="form-control" placeholder="Description" >-->
+                <textarea  ngModel name="description" class="form-control" cols="30" rows="4"></textarea>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input"  ngModel name="state" type="checkbox" id="status" checked="">
+                <label class="form-check-label" for="status">Status</label>
+              </div>
+              <button [disabled]="addForm.invalid" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0" type ="submit" >Confirm</button>
+                <button type="button" class="btn btn-link  ml-auto btn-lg w-100 mt-4 mb-0" data-dismiss="modaladd"(click)="addmodalhide()">Close</button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--Edit modal-->
+<!-- Modal -->
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card card-plain">
+        <div class="card-header pb-0 text-left">
+          <h3 class="font-weight-bolder text-info text-gradient">Edit a declaration</h3>
+          <p class="mb-0">Please enter the required informations downbelow</p>
+        </div>
+        <div class="card-body">
+          <form role="form text-left" #editForm="ngForm" (ngSubmit)="onEditDeclaration(editForm.value)">
+            <label>Incident name</label>
+            <div class="input-group mb-3">
+              <input  type="hidden" ngModel="{{editDeclaration.id}}" name="id" class="form-control" >
+            </div>
+
+            <div class="input-group mb-3">
+              <input  type="hidden" ngModel="{{editDeclaration.date}}" name="date" class="form-control" >
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" ngModel="{{editDeclaration.name}}" name="name" class="form-control" placeholder="Name" >
+            </div>
+
+
+            <div class="input-group mb-3">
+              <input type="hidden" ngModel="{{editDeclaration.id_user}}" name="id_user" class="form-control" placeholder="Name" >
+            </div>
+
+            <label>Description</label>
+            <div class="input-group mb-3">
+             <!--<input type="text"  ngModel name="description" class="form-control" placeholder="Description" >-->
+              <textarea  ngModel="{{editDeclaration.description}}" name="description" class="form-control" cols="30" rows="4"></textarea>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input"  ngModel name="status" type="checkbox" id="status" checked="">
+              <label class="form-check-label" for="status">Status</label>
+            </div>
+            <button   class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0" type="submit" >Save Changes</button>
+              <button type="button" class="btn btn-link  ml-auto btn-lg w-100 mt-4 mb-0" data-dismiss="modaledit"(click)="editmodalhide()">Close</button>
+          </form>
+        </div>
+      </div>
+    </div>
+   </div>
+  </div>
+</div>
+
+</div>
+

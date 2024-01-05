@@ -1,0 +1,197 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>Users table</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Username</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Firstname</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lastname</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone number</th>
+
+                  <th class="text-secondary opacity-7"></th>
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of Users">
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{user.username}}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+
+                    <p class="text-secondary text-xs font-weight-bold">{{user.email}}</p>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.firstname}}</span>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.lastname}}</span>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.phone}} </span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <button type="button" class="btn btn-outline-danger" (click)="openDeleteModel(user.id)">Delete</button>
+                  </td>
+                  <td class="align-middle">
+                    <button type="button" class="btn btn-outline-info" data-toggle="modaledit" data-target="#editModal" (click)="openEditUser(user)">
+                        Edit
+                    </button>
+                  </td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn bg-gradient-secondary btn-sm mb-0 " data-toggle="modaladd" data-target="#addModal" (click)="openAddModel()">Add a user </button>
+</div>
+</div>
+</div>
+<!-- Modal delete -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel">Your attention is required</h6>
+        <button type="button" class="btn-close text-dark" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="py-3 text-center">
+          <i class="ni ni-bell-55 ni-3x"></i>
+          <h4 class="text-gradient text-danger mt-4">You should read this!</h4>
+          <p>Do you really want to delete this User ?</p>
+        </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal"(click)="hide()">Close</button>
+        <button type="button" class="btn bg-gradient-primary" (click)="ConfirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!--ADD modal-->
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card card-plain">
+          <div class="card-header pb-0 text-left">
+            <h3 class="font-weight-bolder text-info text-gradient">Register</h3>
+            <p class="mb-0">Please enter the required informations downbelow</p>
+          </div>
+          <div class="card-body">
+            <form role="form text-left" #addForm="ngForm" (ngSubmit)="onAddUser(addForm)">
+              <label>Firstname</label>
+              <div class="input-group mb-3">
+                <input type="text" ngModel name="firstname" class="form-control" placeholder="Firstname" >
+              </div>
+              <label>Lastname</label>
+              <div class="input-group mb-3">
+                <input type="text" ngModel name="lastname" class="form-control" placeholder="Lastname" >
+              </div>
+              <label>Phone number</label>
+              <div class="input-group mb-3">
+                <input type="number"  ngModel name="phone" class="form-control" placeholder="Phone number" >
+              </div>
+              <label>Email</label>
+              <div class="input-group mb-3">
+                <input type="text" ngModel name="email" class="form-control" placeholder="Email">
+              </div>
+              <label>Username</label>
+              <div class="input-group mb-3">
+                <input type="text" ngModel name="username" class="form-control" placeholder="Username">
+              </div>
+              <label>Password</label>
+              <div class="input-group mb-3">
+                <input type="password" ngModel name="password" class="form-control" placeholder="Password">
+              </div>
+              <label>Password</label>
+              <div class="input-group mb-3">
+                <input type="password" ngModel name="confirmpassword" class="form-control" placeholder="Confirm the password">
+              </div>
+
+              <button [disabled]="addForm.invalid" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0" type ="submit" >Register</button>
+                <button type="button" class="btn btn-link  ml-auto btn-lg w-100 mt-4 mb-0" data-dismiss="modaladd"(click)="addmodalhide()">Close</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--Edit modal-->
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card card-plain">
+        <div class="card-header pb-0 text-left">
+          <h3 class="font-weight-bolder text-info text-gradient">Edit a machine</h3>
+          <p class="mb-0">Please enter the required informations downbelow</p>
+        </div>
+        <div class="card-body">
+          <form role="form text-left" #editForm="ngForm" (ngSubmit)="onEditUser(editForm.value)">
+            <div class="input-group mb-3">
+              <input  type="hidden" ngModel="{{editUser.id}}" name="id" class="form-control" >
+            </div>
+            <div class="input-group mb-3">
+              <input  type="hidden" ngModel="{{editUser.password}}" name="password" class="form-control" >
+            </div>
+            <label>Firstname</label>
+
+            <div class="input-group mb-3">
+              <input type="text" ngModel="{{editUser.firstname}}" name="firstname" class="form-control" placeholder="Firstname" >
+            </div>
+            <label>Lastname</label>
+            <div class="input-group mb-3">
+              <input type="text" ngModel="{{editUser.lastname}}" name="lastname" class="form-control" placeholder="Lastname" >
+            </div>
+            <label>Phone</label>
+            <div class="input-group mb-3">
+              <input type="tel" ngModel="{{editUser.phone}}" name="phone" class="form-control" placeholder="Phone">
+            </div>
+            <label>Username</label>
+            <div class="input-group mb-3">
+              <input type="text" ngModel="{{editUser.username}}" name="username" class="form-control" placeholder="Username">
+            </div>
+            <label>Email</label>
+            <div class="input-group mb-3">
+              <input type="text" ngModel="{{editUser.email}}" name="email" class="form-control" placeholder="Email">
+            </div>
+            <button   class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0" type="submit" >Save Changes</button>
+              <button type="button" class="btn btn-link  ml-auto btn-lg w-100 mt-4 mb-0" data-dismiss="modaledit"(click)="editmodalhide()">Close</button>
+
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
